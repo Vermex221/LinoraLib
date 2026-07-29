@@ -5254,10 +5254,9 @@ do
             Selected = nil,
             SelectedStatus = Info.DefaultStatus or "None",
             ScrollOffset = 0,
+            Actions = if typeof(Info.Actions) == "table" then Info.Actions else {},
             OnSelect = Info.Callback or Info.OnSelect or function() end,
             OnStatusChanged = Info.OnStatusChanged or function() end,
-            OnVotekick = Info.OnVotekick or function() end,
-            OnSpectate = Info.OnSpectate or function() end,
         }
 
         local RowCount = math.clamp(tonumber(Info.RowCount) or 9, 3, 14)
@@ -5799,13 +5798,13 @@ do
             end
         end))
 
-        local function CreateSmallButton(Text, Position, Callback)
+        local function CreateSmallButton(Text, Position, Size, Callback)
             local ButtonOuter = Library:Create("TextButton", {
                 AutoButtonColor = false;
                 BackgroundColor3 = Color3.new(0, 0, 0);
                 BorderColor3 = Color3.new(0, 0, 0);
                 Position = Position;
-                Size = UDim2.new(0.17, -4, 0, 20);
+                Size = Size;
                 Text = "";
                 ZIndex = 9;
                 Parent = PanelInner;
@@ -5854,17 +5853,25 @@ do
             return ButtonOuter
         end
 
-        CreateSmallButton("Votekick", UDim2.new(0.66, 0, 0, BottomY + 60), function(Player)
-            if Player then
-                PlayerList.OnVotekick(Player)
-            end
-        end)
+        local ActionCount = math.min(#PlayerList.Actions, 3)
+        if ActionCount > 0 then
+            local ActionStart = 0.66
+            local ActionWidth = (1 - ActionStart) / ActionCount
 
-        CreateSmallButton("Spectate", UDim2.new(0.83, 0, 0, BottomY + 60), function(Player)
-            if Player then
-                PlayerList.OnSpectate(Player)
+            for ActionIndex = 1, ActionCount do
+                local Action = PlayerList.Actions[ActionIndex]
+                if typeof(Action) == "table" then
+                    CreateSmallButton(
+                        tostring(Action.Text or Action.Name or ("Action " .. ActionIndex)),
+                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 60),
+                        UDim2.new(ActionWidth, ActionIndex == ActionCount and -7 or -4, 0, 20),
+                        function(Player)
+                            Library:SafeCallback(Action.Callback or Action.Func, Player, PlayerList)
+                        end
+                    )
+                end
             end
-        end)
+        end
 
         function PlayerList:SetPlayers(NewPlayers)
             if typeof(NewPlayers) == "table" then
