@@ -5648,6 +5648,17 @@ do
             "No Player Selected",
             9
         )
+        SelectedText.TextYAlignment = Enum.TextYAlignment.Top
+
+        local DetailsText = CreateColumnLabel(
+            PanelInner,
+            UDim2.new(0, 90, 0, BottomY + 20),
+            UDim2.new(0.52, -94, 0, 54),
+            "",
+            9
+        )
+        DetailsText.TextYAlignment = Enum.TextYAlignment.Top
+        DetailsText.TextWrapped = true
 
         local StatusTitle = CreateColumnLabel(
             PanelInner,
@@ -5899,11 +5910,16 @@ do
             SelectedText.Text = tostring(Text or "No Player Selected")
         end
 
+        function PlayerList:SetDetailsText(Text)
+            DetailsText.Text = tostring(Text or "")
+        end
+
         function PlayerList:SetSelected(Player, Silent)
             PlayerList.Selected = Player
             PlayerList.SelectedStatus = NormalizeStatus(GetStatusText(Player))
             StatusLabel.Text = PlayerList.SelectedStatus
             PlayerList:SetSelectedText(Player and FormatPlayerName(Player) or "No Player Selected")
+            PlayerList:SetDetailsText("")
             PlayerList:SetAvatar(Player and GetAvatar(Player) or "")
 
             for _, Row in ipairs(RowObjects) do
@@ -5935,6 +5951,7 @@ do
                 PlayerList.SelectedStatus = NormalizeStatus(nil)
                 StatusLabel.Text = PlayerList.SelectedStatus
                 PlayerList:SetSelectedText("No Player Selected")
+                PlayerList:SetDetailsText("")
                 PlayerList:SetAvatar("")
             end
 
@@ -6010,6 +6027,7 @@ do
         PlayerList.Holder = Holder
         PlayerList.AvatarImage = AvatarImage
         PlayerList.SelectedText = SelectedText
+        PlayerList.DetailsText = DetailsText
         PlayerList.StatusLabel = StatusLabel
 
         table.insert(Groupbox.Elements, PlayerList)
