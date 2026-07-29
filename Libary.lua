@@ -5600,7 +5600,7 @@ do
         local ScrollUpButton, ScrollUpLabel = CreateScrollButton("^", UDim2.new(1, -17, 0, TableHeaderHeight - 2), -1)
         local ScrollDownButton, ScrollDownLabel = CreateScrollButton("v", UDim2.new(1, -17, 1, -16), 1)
 
-        TableInner.InputChanged:Connect(function(Input)
+        Library:GiveSignal(TableInner.InputChanged:Connect(function(Input)
             if PlayerList.Disabled or not PlayerList.SetScroll then
                 return
             end
@@ -5608,7 +5608,7 @@ do
             if Input.UserInputType == Enum.UserInputType.MouseWheel then
                 PlayerList:SetScroll(PlayerList.ScrollOffset - Input.Position.Z)
             end
-        end)
+        end))
 
         local BottomY = TableOuter.Position.Y.Offset + TableHeight + 16
         local AvatarOuter = Library:Create("Frame", {
@@ -5763,7 +5763,7 @@ do
             RepositionStatusDropdown()
         end
 
-        StatusOuter.InputBegan:Connect(function(Input)
+        Library:GiveSignal(StatusOuter.InputBegan:Connect(function(Input)
             if PlayerList.Disabled then
                 return
             end
@@ -5777,12 +5777,12 @@ do
                     Library.OpenedFrames[StatusListOuter] = true
                 end
             end
-        end)
+        end))
 
-        StatusOuter:GetPropertyChangedSignal("AbsolutePosition"):Connect(RepositionStatusDropdown)
-        StatusOuter:GetPropertyChangedSignal("AbsoluteSize"):Connect(RepositionStatusDropdown)
+        Library:GiveSignal(StatusOuter:GetPropertyChangedSignal("AbsolutePosition"):Connect(RepositionStatusDropdown))
+        Library:GiveSignal(StatusOuter:GetPropertyChangedSignal("AbsoluteSize"):Connect(RepositionStatusDropdown))
 
-        InputService.InputBegan:Connect(function(Input)
+        Library:GiveSignal(InputService.InputBegan:Connect(function(Input)
             if not StatusListOuter.Visible then
                 return
             end
@@ -5797,7 +5797,7 @@ do
                     CloseStatusDropdown()
                 end
             end
-        end)
+        end))
 
         local function CreateSmallButton(Text, Position, Callback)
             local ButtonOuter = Library:Create("TextButton", {
@@ -8217,6 +8217,8 @@ do
         end
 
         function Tab:Resize()
+            local FullWidth = Tab.FullWidth == true
+
             if TopBar.Visible == true then
                 local MaximumSize = math.floor(TabFrame.AbsoluteSize.Y / 3.25)
                 local Size = 27 + select(2, Library:GetTextBounds(TopBarTextLabel.Text, Library.Font, 14, Vector2.new(TopBarTextLabel.AbsoluteSize.X, math.huge)))
@@ -8236,24 +8238,31 @@ do
                 
                 if TopBar.Position.Y.Offset > 0 then
                     LeftSide.Position = UDim2.new(0, 7, 0, 7 + Size)
-                    LeftSide.Size = UDim2.new(0.5, -10, 1, -14 - Size)
+                    LeftSide.Size = FullWidth and UDim2.new(1, -14, 1, -14 - Size) or UDim2.new(0.5, -10, 1, -14 - Size)
             
                     RightSide.Position = UDim2.new(0.5, 5, 0, 7 + Size)
                     RightSide.Size = UDim2.new(0.5, -10, 1, -14 - Size)
                 else
                     LeftSide.Position = UDim2.new(0, 7, 0, 7)
-                    LeftSide.Size = UDim2.new(0.5, -10, 1, -14 - Size)
+                    LeftSide.Size = FullWidth and UDim2.new(1, -14, 1, -14 - Size) or UDim2.new(0.5, -10, 1, -14 - Size)
             
                     RightSide.Position = UDim2.new(0.5, 5, 0, 7)
                     RightSide.Size = UDim2.new(0.5, -10, 1, -14 - Size)
                 end
             else
                 LeftSide.Position = UDim2.new(0, 7, 0, 7)
-                LeftSide.Size = UDim2.new(0.5, -10, 1, -14)
+                LeftSide.Size = FullWidth and UDim2.new(1, -14, 1, -14) or UDim2.new(0.5, -10, 1, -14)
         
                 RightSide.Position = UDim2.new(0.5, 5, 0, 7)
                 RightSide.Size = UDim2.new(0.5, -10, 1, -14)
             end
+
+            RightSide.Visible = not FullWidth
+        end
+
+        function Tab:SetFullWidth(Enabled)
+            Tab.FullWidth = Enabled == true
+            Tab:Resize()
         end
 
         function Tab:UpdateWarningBox(Info)
