@@ -5263,7 +5263,7 @@ do
         local RowHeight = tonumber(Info.RowHeight) or 22
         local TableHeaderHeight = 22
         local TableHeight = TableHeaderHeight + (RowCount * RowHeight)
-        local HolderHeight = (tonumber(Info.Height) or (TableHeight + 125))
+        local HolderHeight = (tonumber(Info.Height) or (TableHeight + 150))
         local Blank
         local AvatarCache = {}
         local RowObjects = {}
@@ -5609,12 +5609,12 @@ do
             end
         end))
 
-        local BottomY = TableOuter.Position.Y.Offset + TableHeight + 16
+        local BottomY = TableOuter.Position.Y.Offset + TableHeight + 14
         local AvatarOuter = Library:Create("Frame", {
             BackgroundColor3 = Color3.new(0, 0, 0);
             BorderColor3 = Color3.new(0, 0, 0);
             Position = UDim2.new(0, 7, 0, BottomY);
-            Size = UDim2.new(0, 74, 0, 74);
+            Size = UDim2.new(0, 90, 0, 90);
             ZIndex = 7;
             Parent = PanelInner;
         })
@@ -5643,26 +5643,30 @@ do
 
         local SelectedText = CreateColumnLabel(
             PanelInner,
-            UDim2.new(0, 90, 0, BottomY),
-            UDim2.new(0.52, -94, 0, 22),
+            UDim2.new(0, 106, 0, BottomY),
+            UDim2.new(0.52, -110, 0, 18),
             "No Player Selected",
             9
         )
+        SelectedText.TextTruncate = Enum.TextTruncate.None
         SelectedText.TextYAlignment = Enum.TextYAlignment.Top
+        SelectedText.TextWrapped = true
 
         local DetailsText = CreateColumnLabel(
             PanelInner,
-            UDim2.new(0, 90, 0, BottomY + 20),
-            UDim2.new(0.52, -94, 0, 54),
+            UDim2.new(0, 106, 0, BottomY + 18),
+            UDim2.new(0.52, -110, 0, 72),
             "",
             9
         )
+        DetailsText.TextSize = 13
+        DetailsText.TextTruncate = Enum.TextTruncate.None
         DetailsText.TextYAlignment = Enum.TextYAlignment.Top
         DetailsText.TextWrapped = true
 
         local StatusTitle = CreateColumnLabel(
             PanelInner,
-            UDim2.new(0.66, 0, 0, BottomY),
+            UDim2.new(0.66, 0, 0, BottomY + 3),
             UDim2.new(0.34, -7, 0, 22),
             "Player Status",
             9
@@ -5671,7 +5675,7 @@ do
         local StatusOuter = Library:Create("Frame", {
             BackgroundColor3 = Color3.new(0, 0, 0);
             BorderColor3 = Color3.new(0, 0, 0);
-            Position = UDim2.new(0.66, 0, 0, BottomY + 30);
+            Position = UDim2.new(0.66, 0, 0, BottomY + 31);
             Size = UDim2.new(0.34, -7, 0, 20);
             ZIndex = 9;
             Parent = PanelInner;
@@ -5874,7 +5878,7 @@ do
                 if typeof(Action) == "table" then
                     CreateSmallButton(
                         tostring(Action.Text or Action.Name or ("Action " .. ActionIndex)),
-                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 60),
+                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 66),
                         UDim2.new(ActionWidth, ActionIndex == ActionCount and -7 or -4, 0, 20),
                         function(Player)
                             Library:SafeCallback(Action.Callback or Action.Func, Player, PlayerList)
