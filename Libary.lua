@@ -5613,7 +5613,7 @@ do
         local AvatarOuter = Library:Create("Frame", {
             BackgroundColor3 = Color3.new(0, 0, 0);
             BorderColor3 = Color3.new(0, 0, 0);
-            Position = UDim2.new(0, 7, 0, BottomY - 8);
+            Position = UDim2.new(0, 7, 0, BottomY - 12);
             Size = UDim2.new(0, 82, 0, 82);
             ZIndex = 7;
             Parent = PanelInner;
