@@ -5263,7 +5263,7 @@ do
         local RowHeight = tonumber(Info.RowHeight) or 22
         local TableHeaderHeight = 22
         local TableHeight = TableHeaderHeight + (RowCount * RowHeight)
-        local HolderHeight = (tonumber(Info.Height) or (TableHeight + 150))
+        local HolderHeight = (tonumber(Info.Height) or (TableHeight + 138))
         local Blank
         local AvatarCache = {}
         local RowObjects = {}
@@ -5614,7 +5614,7 @@ do
             BackgroundColor3 = Color3.new(0, 0, 0);
             BorderColor3 = Color3.new(0, 0, 0);
             Position = UDim2.new(0, 7, 0, BottomY);
-            Size = UDim2.new(0, 90, 0, 90);
+            Size = UDim2.new(0, 86, 0, 86);
             ZIndex = 7;
             Parent = PanelInner;
         })
@@ -5655,7 +5655,7 @@ do
         local DetailsText = CreateColumnLabel(
             PanelInner,
             UDim2.new(0, 106, 0, BottomY + 18),
-            UDim2.new(0.52, -110, 0, 72),
+            UDim2.new(0.52, -110, 0, 68),
             "",
             9
         )
@@ -5878,7 +5878,7 @@ do
                 if typeof(Action) == "table" then
                     CreateSmallButton(
                         tostring(Action.Text or Action.Name or ("Action " .. ActionIndex)),
-                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 66),
+                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 62),
                         UDim2.new(ActionWidth, ActionIndex == ActionCount and -7 or -4, 0, 20),
                         function(Player)
                             Library:SafeCallback(Action.Callback or Action.Func, Player, PlayerList)
