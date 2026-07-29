@@ -5259,7 +5259,7 @@ do
             OnStatusChanged = Info.OnStatusChanged or function() end,
         }
 
-        local RowCount = math.clamp(tonumber(Info.RowCount) or 9, 3, 14)
+        local RowCount = math.clamp(tonumber(Info.RowCount) or 9, 3, 18)
         local RowHeight = tonumber(Info.RowHeight) or 22
         local TableHeaderHeight = 22
         local TableHeight = TableHeaderHeight + (RowCount * RowHeight)
