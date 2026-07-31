@@ -5321,6 +5321,17 @@ do
             return "None"
         end
 
+        local function GetTeamColor(Player)
+            if typeof(Info.GetTeamColor) == "function" then
+                local Success, Result = pcall(Info.GetTeamColor, Player)
+                if Success and typeof(Result) == "Color3" then
+                    return Result
+                end
+            end
+
+            return nil
+        end
+
         local function GetStatusText(Player)
             if typeof(Info.GetStatus) == "function" then
                 local Success, Result = pcall(Info.GetStatus, Player)
@@ -5476,15 +5487,16 @@ do
         })
 
         local function SetRowSelected(Row, Selected)
+            local TeamColor = Row.TeamColor
             Row.NameLabel.TextColor3 = Selected and Library.AccentColor or Library.FontColor
-            Row.TeamLabel.TextColor3 = Selected and Library.AccentColor or Library.FontColor
+            Row.TeamLabel.TextColor3 = Selected and Library.AccentColor or TeamColor or Library.FontColor
             Row.StatusLabel.TextColor3 = Selected and Library.AccentColor or Library.FontColor
 
             if Library.RegistryMap[Row.NameLabel] then
                 Library.RegistryMap[Row.NameLabel].Properties.TextColor3 = Selected and "AccentColor" or "FontColor"
             end
             if Library.RegistryMap[Row.TeamLabel] then
-                Library.RegistryMap[Row.TeamLabel].Properties.TextColor3 = Selected and "AccentColor" or "FontColor"
+                Library.RegistryMap[Row.TeamLabel].Properties.TextColor3 = Selected and "AccentColor" or TeamColor or "FontColor"
             end
             if Library.RegistryMap[Row.StatusLabel] then
                 Library.RegistryMap[Row.StatusLabel].Properties.TextColor3 = Selected and "AccentColor" or "FontColor"
@@ -5971,6 +5983,7 @@ do
                     Row.Button.Visible = true
                     Row.NameLabel.Text = FormatPlayerName(Player)
                     Row.TeamLabel.Text = GetTeamText(Player)
+                    Row.TeamColor = GetTeamColor(Player)
                     Row.StatusLabel.Text = Player == PlayerList.Selected and PlayerList.SelectedStatus or GetStatusText(Player)
                     SetRowSelected(Row, Player == PlayerList.Selected)
                 else
@@ -9059,4 +9072,4 @@ end))
 getgenv().Linoria = Library
 if getgenv().skip_getgenv_linoria ~= true then getgenv().Library = Library end
 return Library
--- pls commit github
+-- github daddy theres actually some changes this time
