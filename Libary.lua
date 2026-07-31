@@ -1128,7 +1128,7 @@ local Templates = { -- TO-DO: do it for missing elements.
         Position = UDim2.fromOffset(175, 50),
         Size = UDim2.fromOffset(0, 0),
         AnchorPoint = Vector2.zero,
-        TabPadding = 1,
+        TabPadding = 0,
         MenuFadeTime = 0.2,
         NotifySide = "Left",
         ShowCustomCursor = true,
@@ -7364,7 +7364,7 @@ function Library:CreateWindow(...)
     Library.NotifySide = WindowInfo.NotifySide
     Library.ShowCustomCursor = WindowInfo.ShowCustomCursor
 
-    if WindowInfo.TabPadding <= 0 then WindowInfo.TabPadding = 1 end
+    if WindowInfo.TabPadding < 0 then WindowInfo.TabPadding = 0 end
     if WindowInfo.Center then WindowInfo.Position = UDim2.new(0.5, -WindowInfo.Size.X.Offset / 2, 0.5, -WindowInfo.Size.Y.Offset / 2) end
 
     local Window = {
@@ -9072,4 +9072,3 @@ end))
 getgenv().Linoria = Library
 if getgenv().skip_getgenv_linoria ~= true then getgenv().Library = Library end
 return Library
--- github daddy theres actually some changes this time
