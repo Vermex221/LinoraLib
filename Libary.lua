@@ -5678,7 +5678,7 @@ do
 
         local StatusTitle = CreateColumnLabel(
             PanelInner,
-            UDim2.new(0.66, 0, 0, BottomY + 3),
+            UDim2.new(0.66, 0, 0, BottomY),
             UDim2.new(0.34, -7, 0, 22),
             "Player Status",
             9
@@ -5687,7 +5687,7 @@ do
         local StatusOuter = Library:Create("Frame", {
             BackgroundColor3 = Color3.new(0, 0, 0);
             BorderColor3 = Color3.new(0, 0, 0);
-            Position = UDim2.new(0.66, 0, 0, BottomY + 31);
+            Position = UDim2.new(0.66, 0, 0, BottomY + 24);
             Size = UDim2.new(0.34, -7, 0, 20);
             ZIndex = 9;
             Parent = PanelInner;
@@ -5890,7 +5890,7 @@ do
                 if typeof(Action) == "table" then
                     CreateSmallButton(
                         tostring(Action.Text or Action.Name or ("Action " .. ActionIndex)),
-                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 58),
+                        UDim2.new(ActionStart + ((ActionIndex - 1) * ActionWidth), ActionIndex == 1 and 0 or 3, 0, BottomY + 49),
                         UDim2.new(ActionWidth, ActionIndex == ActionCount and -7 or -4, 0, 20),
                         function(Player)
                             Library:SafeCallback(Action.Callback or Action.Func, Player, PlayerList)
@@ -8559,7 +8559,7 @@ end
                 local Button = Library:Create("Frame", {
                     BackgroundColor3 = Library.MainColor;
                     BorderColor3 = Color3.new(0, 0, 0);
-                    Size = UDim2.new(0.5, 0, 1, 0);
+                    Size = UDim2.new(1, 0, 1, 0);
                     ZIndex = 6;
                     Parent = TabboxButtons;
                 })
